@@ -9,6 +9,7 @@ import Aboutus from './Components/Aboutus';
 import Contactus from './Components/Contactus';
 import Categiry from './Components/Categiry';
 import Shop from './Components/Shop';
+import CllectionAll from './Components/CllectionAll';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/Contactus" element={<Contactus />} />
         <Route path="/Categiry" element={<Categiry />} />
         <Route path="/Shop" element={<Shop />} />
+        <Route path="/category/:categoryName" element={<CllectionAll />} />
       </Routes>
     </Router>
    </>

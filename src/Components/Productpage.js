@@ -1,6 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 function Productpage() {
+  const [showshowProducts, setshowPrducts] = useState([]);
+
+  const url = 'https://fakestoreapi.com/Products';
+  async function fetchdata(){
+    const res = await fetch(url);
+    const data = await res.json();
+    setshowPrducts(data)
+  }
+ useEffect(()=>{
+  fetchdata();
+ }, [])
+
   return (
     <div>
         <section className="product-details-page">
@@ -45,9 +57,22 @@ function Productpage() {
         </div>
       </div>
     </div>
+    <div className='product-grid'>
+      {showshowProducts.map((Product)=>(
+        <div className="product-card"id={Product.id}>
+          <div className="image">
+       <img src={Product.image} alt={Product.image} srcset="" /></div>
+        <div className="product-name">{Product.title}</div>
+        <div className="product-price">{Product.price}</div>
+        <div className="product-category">{Product.category}</div>
+        <div className="product-description">{Product.description}</div>
+        <button className='add-cart-btn'>Add to cart</button>
+      </div>
+      ))}
+      
+    </div>
   </div>
 </section>
-
     </div>
   )
 }

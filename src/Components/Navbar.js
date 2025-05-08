@@ -8,7 +8,7 @@ const Navbar = () => {
   
       <div className="nav-left">
         <Link to="/" className="brand-link">
-          <img src="https://cdn.shopify.com/s/files/1/0262/6905/7096/files/4864fd205ac63a7663224b8c1f8baed2.jpg?v=1745854980" alt="Brand Logo" className="brand-logo" />
+          <img src="https://media.istockphoto.com/id/1408777398/photo/gold-letter-s.webp?s=1024x1024&w=is&k=20&c=KC98FgpNOpwaPzWLQV8TT9sPLsF4tHYW8eiE18JxggY=" alt="Brand Logo" className="brand-logo" />
           <span className="brand-name">ShopNow</span>
         </Link>
       </div>
@@ -30,15 +30,17 @@ const Navbar = () => {
           <p>Login/Logout</p>
         </Link>
   
-        <div to="#" className="search"><img alt="" srcset="" src="https://cdn.shopify.com/s/files/1/0262/6905/7096/files/Search-icon.png?v=1745855557" className="search-icon"/></div>
+        <div to="#" className="search"><i className="fas fa-search"></i>
+        </div>
         <div className="notification">
-          <img src="https://cdn.shopify.com/s/files/1/0262/6905/7096/files/notification-bell.jpg?v=1745854795" alt="Notifications" className="notification-icon" />
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+          <i className="fas fa-bell"></i>
           <span className="notification-badge">3</span> 
         </div>
   
        
         <Link to="/Cardpage" className="cart-link">
-          <img src="https://cdn.shopify.com/s/files/1/0262/6905/7096/files/cart-icon.png?v=1745854795" alt="Cart" className="cart-icon" />
+        <i className="fas fa-shopping-cart"></i>
           <span className="cart-badge">5</span> 
         </Link>
   
