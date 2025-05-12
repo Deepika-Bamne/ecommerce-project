@@ -1,50 +1,36 @@
-import React from 'react'
+import React from 'react';
+import { useCart } from './CartContext';
 
-function Cardpage() {
+function CartPage() {
+  const { cartItems } = useCart();
+
+  const total = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
   return (
-    <div><section className="cart-page">
-    <h2>Your Shopping Cart</h2>
-  
-    <div className="cart-items">
-     
-      <div className="cart-item">
-        <img src="https://via.placeholder.com/100" alt="Product" className="cart-item-img" />
-        <div className="cart-item-details">
-          <h4>Wireless Headphones</h4>
-          <div className="quantity-price">
-            <label>Qty:</label>
-            <input type="number" value="1" min="1" />
-          </div>
-          <p>Price: $80</p>
-          <p>Subtotal: $80</p>
-        </div>
-        <button className="remove-btn">Remove</button>
-      </div>
-  
-     
-      <div className="cart-item">
-        <img src="https://via.placeholder.com/100" alt="Product" className="cart-item-img" />
-        <div className="cart-item-details">
-          <h4>Smart Watch</h4>
-          <div className="quantity-price">
-            <label>Qty:</label>
-            <input type="number" value="2" min="1" />
-          </div>
-          <p>Price: $50</p>
-          <p>Subtotal: $100</p>
-        </div>
-        <button className="remove-btn">Remove</button>
-      </div>
+    <div>
+      <h2>Your Shopping Cart</h2>
+      {cartItems.length === 0 ? (
+        <p>Cart is empty.</p>
+      ) : (
+        <>
+          {cartItems.map((item, index) => (
+            <div key={index}>
+              <img src={item.image} alt={item.name} width="80" />
+              <h4>{item.name}</h4>
+              <p>Qty: {item.quantity}</p>
+              <p>Price: ${item.price}</p>
+              <p>Subtotal: ${item.price * item.quantity}</p>
+              <hr />
+            </div>
+          ))}
+          <h3>Total: ${total}</h3>
+        </>
+      )}
     </div>
-  
-   
-    <div className="cart-summary">
-      <h3>Total: $180</h3>
-      <button className="checkout-btn">Proceed to Checkout</button>
-    </div>
-  </section>
-  </div>
-  )
+  );
 }
 
-export default Cardpage
+export default CartPage;

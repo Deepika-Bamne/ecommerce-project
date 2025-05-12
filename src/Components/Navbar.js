@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
@@ -16,7 +16,6 @@ const Navbar = () => {
       
       <ul className="nav-center">
         <li><Link to="/Home">Home</Link></li>
-        <li><Link to="/shop">Shop</Link></li>
         <li><Link to="/Categiry">Categories</Link></li>
         <li><Link to="/Aboutus">About Us</Link></li>
         <li><Link to="/Contactus">Contact</Link></li>
@@ -26,22 +25,18 @@ const Navbar = () => {
       <div className="nav-right">
   
        
-        <Link to="/login" className="login-link">
-          <p>Login/Logout</p>
-        </Link>
+      <Link to="/LoginPage" className="login-link">
+  <i className="fas fa-user-circle"></i>
+</Link>
+
   
         <div to="#" className="search"><i className="fas fa-search"></i>
-        </div>
-        <div className="notification">
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-          <i className="fas fa-bell"></i>
-          <span className="notification-badge">3</span> 
         </div>
   
        
         <Link to="/Cardpage" className="cart-link">
         <i className="fas fa-shopping-cart"></i>
-          <span className="cart-badge">5</span> 
+          {/* <span className="cart-badge">0</span>  */}
         </Link>
   
       </div>

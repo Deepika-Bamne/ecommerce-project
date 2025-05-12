@@ -1,80 +1,109 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useCart } from './CartContext';
 
 function Productpage() {
-  const [showshowProducts, setshowPrducts] = useState([]);
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [otherProducts, setOtherProducts] = useState([]);
+  const [quantity, setQuantity] = useState(1);
 
-  const url = 'https://fakestoreapi.com/Products';
-  async function fetchdata(){
-    const res = await fetch(url);
-    const data = await res.json();
-    setshowPrducts(data)
+  useEffect(() => {
+    const url = `https://fakestoreapi.com/products/${id}`;
+    async function fetchData() {
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        setProduct(data);
+
+        const allProductsRes = await fetch('https://fakestoreapi.com/products');
+        const allProducts = await allProductsRes.json();
+        const filteredProducts = allProducts.filter((p) => p.id !== data.id);
+        setOtherProducts(filteredProducts);
+      } catch (error) {
+        console.error('Failed to fetch product:', error);
+      }
+    }
+    fetchData();
+  }, [id]);
+
+  const handleAddToCart = () => {
+    addToCart({ ...product, quantity });
+    navigate('/Cardpage');
+  };
+
+  if (!product) {
+    return <div>Loading...</div>;
   }
- useEffect(()=>{
-  fetchdata();
- }, [])
 
   return (
     <div>
-        <section className="product-details-page">
-  <div className="product-wrapper">
-    
-    <div className="product-images">
-      <img src="https://via.placeholder.com/400x400" alt="Product Image" className="main-image" />
-      <div className="thumbnail-images">
-        <img src="https://via.placeholder.com/100" />
-        <img src="https://via.placeholder.com/100" />
-        <img src="https://via.placeholder.com/100" />
-      </div>
-    </div>
-    <div className="product-info">
-      <h1 className="product-title">Stylish Headphones</h1>
-      <p className="product-price">$89.99</p>
-      <p className="product-description">
-        Experience the best audio quality with our stylish headphones. Designed for comfort and built to last.
-      </p>
-      <div className="quantity-selector">
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" min="1" value="1" />
-      </div>
-      <button className="add-to-cart-btn">Add to Cart</button>
+      <section className="product-details-page">
+        <div className="product-wrapper">
+          <div className="product-images">
+            <img src={product.image} alt={product.title} className="main-image" />
+            <div className="thumbnail-images">
+              <img src={product.image} alt="thumb" />
+              <img src={product.image} alt="thumb" />
+              <img src={product.image} alt="thumb" />
+            </div>
+          </div>
 
-     
-      <div className="tabs">
-        <button className="tab-button active" onclick="showTab('specs')">Specifications</button>
-        <button className="tab-button" onclick="showTab('reviews')">Reviews</button>
-      </div>
-      <div className="tab-content">
-        <div id="specs" className="tab-panel active">
-          <ul>
-            <li>Bluetooth: 5.0</li>
-            <li>Battery Life: 20 hours</li>
-            <li>Noise Cancellation: Yes</li>
-          </ul>
+          <div className="product-info">
+            <h1 className="product-title">{product.title}</h1>
+            <p className="product-price">${product.price}</p>
+            <p className="product-description">{product.description}</p>
+            <p className="product-category">
+              <strong>Category:</strong> {product.category}
+            </p>
+
+            <div className="quantity-selector">
+              <label htmlFor="quantity">Quantity:</label>
+              <input
+                type="number"
+                id="quantity"
+                min="1"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+              />
+            </div>
+            <button onClick={handleAddToCart} className="add-to-cart-btn">
+              Add to Cart
+            </button>
+          </div>
         </div>
-        <div id="reviews" className="tab-panel">
-          <p><strong>John:</strong> Great sound and build quality! 🌟🌟🌟🌟🌟</p>
-          <p><strong>Anna:</strong> Super comfortable for long hours. Worth it!</p>
-        </div>
+      </section>
+
+      <div className="product-grid">
+        <h1>Featured Products</h1>
+        {otherProducts.map((product) => (
+          <div key={product.id} className="product-card">
+            <Link to={`/product/${product.id}`} className="product-link">
+              <div className="image">
+                <img src={product.image} alt={product.title} />
+              </div>
+              <div className="product-name">{product.title}</div>
+              <div className="product-price">${product.price}</div>
+              <div className="product-category">{product.category}</div>
+              <div className="product-description">{product.description}</div>
+            </Link>
+            <button
+              onClick={() => {
+                addToCart({ ...product, quantity: 1 });
+                navigate('/Cardpage');
+              }}
+              className="add-cart-btn"
+            >
+              Add to Cart
+            </button>
+          </div>
+        ))}
       </div>
     </div>
-    <div className='product-grid'>
-      {showshowProducts.map((Product)=>(
-        <div className="product-card"id={Product.id}>
-          <div className="image">
-       <img src={Product.image} alt={Product.image} srcset="" /></div>
-        <div className="product-name">{Product.title}</div>
-        <div className="product-price">{Product.price}</div>
-        <div className="product-category">{Product.category}</div>
-        <div className="product-description">{Product.description}</div>
-        <button className='add-cart-btn'>Add to cart</button>
-      </div>
-      ))}
-      
-    </div>
-  </div>
-</section>
-    </div>
-  )
+  );
 }
 
-export default Productpage
+export default Productpage;
