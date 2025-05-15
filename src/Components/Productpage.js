@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from './CartContext';
+import ProductCard from './ProductCard';
+
 
 function Productpage() {
   const { addToCart } = useCart();
@@ -79,28 +81,10 @@ function Productpage() {
 
       <div className="product-grid">
         <h1>Featured Products</h1>
-        {otherProducts.map((product) => (
-          <div key={product.id} className="product-card">
-            <Link to={`/product/${product.id}`} className="product-link">
-              <div className="image">
-                <img src={product.image} alt={product.title} />
-              </div>
-              <div className="product-name">{product.title}</div>
-              <div className="product-price">${product.price}</div>
-              <div className="product-category">{product.category}</div>
-              <div className="product-description">{product.description}</div>
-            </Link>
-            <button
-              onClick={() => {
-                addToCart({ ...product, quantity: 1 });
-                navigate('/Cardpage');
-              }}
-              className="add-cart-btn"
-            >
-              Add to Cart
-            </button>
-          </div>
-        ))}
+{otherProducts.map((product) => (
+  <ProductCard key={product.id} product={product} showDescription={false} />
+))}
+
       </div>
     </div>
   );

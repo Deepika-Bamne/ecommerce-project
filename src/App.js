@@ -10,8 +10,7 @@ import Contactus from './Components/Contactus';
 import Categiry from './Components/Categiry';
 import CllectionAll from './Components/CllectionAll';
 import { CartProvider } from './Components/CartContext'; 
-import LoginPage from './Components/LoginPage'; 
-
+import Authage from './Components/Authage';  
 
 function App() {
   return (
@@ -27,7 +26,7 @@ function App() {
           <Route path="/Contactus" element={<Contactus />} />
           <Route path="/Categiry" element={<Categiry />} />
           <Route path="/category/:categoryName" element={<CllectionAll />} />
-          <Route path="/LoginPage" element={<LoginPage />} />
+          <Route path="/auth" element={<Authage />} /> 
         </Routes>
       </Router>
     </CartProvider> 
